@@ -7,8 +7,10 @@ declare(strict_types=1);
  *   - action=planLabel  → گرفتن label بر اساس plid
  */
 define('ADMINAREA', true);
-chdir(dirname(__FILE__, 4)); // تا روت WHMCS
-require_once __DIR__ . '/../../../init.php';
+// Move to the WHMCS root so we can bootstrap the environment
+chdir(dirname(__FILE__, 4));
+// Now load the WHMCS init file from the root we just chdir'd into
+require_once 'init.php';
 
 use WHMCS\Database\Capsule;
 
