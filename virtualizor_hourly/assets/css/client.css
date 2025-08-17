@@ -1,0 +1,74 @@
+/* ===== Virtualizor Cloud — Client UI ===== */
+.vzc { --bg:#0b0f15; --card:#0f1520; --text:#d7e2f0; --muted:#8ea2b8; --primary:#4fa3ff; --success:#21c97a; --warn:#ffbd2e; --danger:#ff5e57; --glow:0 0 20px rgba(79,163,255,.35); }
+.vzc { background: var(--bg); color: var(--text); border-radius: 14px; padding: 18px; }
+.vzc a, .vzc button, .vzc input, .vzc select { font-family: inherit; }
+
+.vzc-header { display:flex; gap:20px; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
+.vzc-badge { display:inline-block; background:rgba(79,163,255,.15); color:var(--primary); padding:6px 10px; border-radius:999px; font-size:12px; letter-spacing:.3px; }
+.vzc-title h2 { margin:.3rem 0 .2rem; font-weight:700; }
+.vzc-sub { color: var(--muted); margin:0; }
+.vzc-actions .vzc-btn { margin-left:6px; }
+
+.vzc-grid { display:grid; grid-template-columns: 1.2fr .8fr .8fr; gap:16px; }
+@media (max-width: 992px) { .vzc-grid { grid-template-columns: 1fr; } }
+
+/* Cards */
+.vzc-card { background: var(--card); border:1px solid rgba(255,255,255,.06); border-radius:14px; overflow:hidden; }
+.vzc-card-glow { box-shadow: var(--glow); }
+.vzc-card-header { padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06); display:flex; align-items:center; justify-content:space-between; }
+.vzc-card-header h4{ margin:0; font-weight:700; }
+.vzc-card-body { padding:16px; }
+
+/* State pill */
+.vzc-state { padding:4px 10px; border-radius:999px; font-size:12px; letter-spacing:.3px; background:rgba(255,255,255,.08); color:#fff; }
+.vzc-state.on { background: rgba(33,201,122,.15); color: var(--success); }
+.vzc-state.off{ background: rgba(255,94,87,.15); color: var(--danger); }
+
+/* Gauges (SVG rings) */
+.vzc-gauges { display:flex; gap:18px; justify-content:space-between; flex-wrap:wrap; }
+.vzc-gauge { text-align:center; flex:1 1 120px; }
+.vzc-ring { width:120px; height:120px; }
+.vzc-ring .bg { fill:none; stroke: rgba(255,255,255,.08); stroke-width: 3; }
+.vzc-ring .fg { fill:none; stroke: var(--primary); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 100, 100; transform: rotate(-90deg); transform-origin: 50% 50%; filter: drop-shadow(0 0 6px rgba(79,163,255,.5)); }
+.vzc-ring .txt { fill: #fff; font-size: 8px; text-anchor: middle; }
+.vzc-gauge-label { margin-top:8px; color: var(--muted); }
+
+/* Buttons */
+.vzc-btn { border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color:#fff; padding:8px 12px; border-radius:10px; font-weight:600; transition:.2s; }
+.vzc-btn:hover { transform: translateY(-1px); }
+.vzc-btn-primary { border-color: rgba(79,163,255,.5); background: linear-gradient(180deg, rgba(79,163,255,.35), rgba(79,163,255,.12)); }
+.vzc-btn-success { border-color: rgba(33,201,122,.5); background: linear-gradient(180deg, rgba(33,201,122,.35), rgba(33,201,122,.12)); }
+.vzc-btn-warning { border-color: rgba(255,189,46,.5); background: linear-gradient(180deg, rgba(255,189,46,.35), rgba(255,189,46,.12)); color:#000; }
+.vzc-btn-info    { border-color: rgba(90,200,250,.5); background: linear-gradient(180deg, rgba(90,200,250,.35), rgba(90,200,250,.12)); }
+.vzc-btn-danger  { border-color: rgba(255,94,87,.5); background: linear-gradient(180deg, rgba(255,94,87,.35), rgba(255,94,87,.12)); }
+.vzc-btn-outline { background: transparent; border-color: rgba(255,255,255,.2); }
+
+/* Buttons row */
+.vzc-buttons { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+
+/* Progress (Bandwidth) */
+.vzc-progress-wrap { margin-top:4px; }
+.vzc-progress { height:10px; background: rgba(255,255,255,.08); border-radius:999px; overflow:hidden; }
+.vzc-progress-bar { height:100%; background: linear-gradient(90deg, var(--primary), #7cc0ff); width:0; transition: width .6s ease; }
+.vzc-progress-meta { display:flex; justify-content:space-between; color: var(--muted); font-size:12px; margin-top:6px; }
+
+/* Forms */
+.vzc-form-inline { display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
+.vzc-input { background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); color:#fff; }
+
+/* Empty */
+.vzc-empty { text-align:center; padding:28px 12px; color: var(--muted); }
+.vzc-empty.sm { padding:12px; }
+.vzc-empty-icon { color: var(--primary); margin-bottom:8px; }
+
+/* Alert */
+.vzc-alert { border-radius:10px; border:1px solid rgba(255,0,0,.25); background: rgba(255,0,0,.08); }
+
+/* OS Picker */
+.vzc-os-picker { display:flex; flex-direction:column; gap:12px; }
+.vzc-os-search { max-width:420px; }
+.vzc-os-select-wrap { max-width:520px; }
+#vzc-os-select { min-width: 260px; }
+
+/* Hover glow */
+.vzc-card:hover { box-shadow: 0 0 0 rgba(0,0,0,0), 0 0 26px rgba(79,163,255,.08) inset; }
