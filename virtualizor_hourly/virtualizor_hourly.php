@@ -49,7 +49,9 @@ function virtualizor_hourly_ConfigOptions()
         ],
         'Plan ID (plid)' => [
             'Type' => 'text', 'Size' => '10', 'Default' => '',
-            'Description' => 'Optional. If set, resources are taken from this Virtualizor plan.',
+            'Description' => 'Optional. If set, resources are taken from this Virtualizor plan. '
+                . '<button type="button" class="btn btn-default btn-sm" id="vz-load-plans">Load Plans</button>'
+                . '<script src="../modules/servers/virtualizor_hourly/assets/js/admin.js"></script>',
         ],
         'OS Template ID (osid)' => [
             'Type' => 'text', 'Size' => '10', 'Default' => '',
@@ -249,12 +251,18 @@ function virtualizor_hourly_CreateAccount(array $params)
 
         // 6) استخراج vpsid از انواع خروجی
         $vpsid = null;
-        if (isset($res['vpsinfo']['vpsid']))           $vpsid = (int)$res['vpsinfo']['vpsid'];
-        elseif (isset($res['vs_info']['vpsid']))       $vpsid = (int)$res['vs_info']['vpsid'];
-        elseif (isset($res['newvs']) && is_scalar($res['newvs']))          $vpsid = (int)$res['newvs'];
+        if (isset($res['vpsinfo']['vpsid']))             $vpsid = (int)$res['vpsinfo']['vpsid'];
+        elseif (isset($res['vs_info']['vpsid']))         $vpsid = (int)$res['vs_info']['vpsid'];
+        elseif (isset($res['newvs']) && is_scalar($res['newvs']))  $vpsid = (int)$res['newvs'];
         elseif (isset($res['newvs']) && is_array($res['newvs'])) { // گاهی آرایه برمی‌گردد
             $first = reset($res['newvs']);
             if (is_scalar($first)) $vpsid = (int)$first;
+        } elseif (isset($res['vpsid'])) {
+            $vpsid = (int)$res['vpsid'];
+        } elseif (isset($res['newvid'])) {
+            $vpsid = (int)$res['newvid'];
+        } elseif (isset($res['newvpsid'])) {
+            $vpsid = (int)$res['newvpsid'];
         }
         // 7) اگر هنوز هم vpsid پیدا نشد، fallback: آخرین VPS کاربر با همین hostname را پیدا کن
         if (!$vpsid) {
@@ -484,12 +492,6 @@ function virtualizor_hourly_AdminServicesTabFields(array $params)
             $current = (string)$cfg['plid'];
         }
 
-        if (isset($_POST['vz_planid_save'])) {
-            $newPlid = trim($_POST['vz_planid'] ?? '');
-            vihoz_setServiceMeta((int)$params['serviceid'], 'VZ_PLANID', $newPlid);
-            $current = $newPlid;
-        }
-
     } catch (\Throwable $e) { $error = $e->getMessage(); }
 
     $html  = '';
@@ -498,7 +500,6 @@ function virtualizor_hourly_AdminServicesTabFields(array $params)
     }
 
     if ($options) {
-        $html .= '<form method="post" style="margin:0;">';
         $html .= '<div class="form-group">';
         $html .= '<label><strong>Virtualizor Plan</strong></label>';
         $html .= '<select name="vz_planid" class="form-control" style="max-width:420px;">';
@@ -507,10 +508,8 @@ function virtualizor_hourly_AdminServicesTabFields(array $params)
             $html .= '<option value="'.htmlspecialchars($id).'" '.$sel.'>'.htmlspecialchars($label).'</option>';
         }
         $html .= '</select>';
-        $html .= '</div>';
-        $html .= '<button class="btn btn-primary" name="vz_planid_save" value="1">Save Plan</button>';
-        $html .= '</form>';
         $html .= '<p class="help-block" style="margin-top:8px;">Saved per-service and used on Create/ChangePackage.</p>';
+        $html .= '</div>';
     } else {
         $html .= '<div class="alert alert-warning">No plans fetched from Virtualizor.</div>';
     }
@@ -519,6 +518,14 @@ function virtualizor_hourly_AdminServicesTabFields(array $params)
         'Virtualizor Plan' => $html,
     ];
 }
+
+function virtualizor_hourly_AdminServicesTabFieldsSave(array $params)
+{
+    $newPlid = isset($_REQUEST['vz_planid']) ? trim((string)$_REQUEST['vz_planid']) : '';
+    vihoz_setServiceMeta((int)$params['serviceid'], 'VZ_PLANID', $newPlid);
+}
+
+
 
 /* ==================== Custom Actions ==================== */
 
